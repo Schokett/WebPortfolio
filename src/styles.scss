@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&display=swap');
+/* Beim ersten Paint alles ohne Animation/Transition zeichnen */
+
+:root {
+    --bg: #ffffff;
+    --fg: #121417;
+    --muted: #5b6470;
+    --acc: #4f46e5;
+    --card: #f6f7f9;
+    --border: #e7e9ee;
+}
+
+:root[data-theme="dark"] {
+    --bg: #0b0f14;
+    --fg: #e7e9ee;
+    --muted: #a8b0bb;
+    --acc: #8ab4f8;
+    --card: #121821;
+    --border: #1c2430;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --bg: #0b0f14;
+        --fg: #e7e9ee;
+        --muted: #a8b0bb;
+        --acc: #8ab4f8;
+        --card: #121821;
+        --border: #1c2430;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: "Noto Sans JP", system-ui, Segoe UI, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.skip {
+    position: absolute;
+    left: -999px;
+}
+
+.skip:focus {
+    left: 12px;
+    top: 12px;
+    background: var(--acc);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 0;
+}
+
+.logo {
+    font-weight: 700;
+}
+
+.menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 16px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: var(--fg);
+    opacity: .9;
+}
+
+.menu a:hover {
+    opacity: 1;
+    color: var(--acc);
+}
+
+.btn,
+.btn-secondary,
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 12px;
+    padding: 10px 16px;
+    // border: 1px solid var(--border);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn {
+    background: var(--acc);
+    color: #fff;
+}
+
+.btn-secondary,
+.btn-icon {
+    background: transparent;
+    color: var(--fg);
+}
+
+.section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.hero {
+    padding: 96px 0 72px;
+}
+
+h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    margin: 0 0 12px;
+}
+
+h1 .accent {
+    color: var(--acc);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    margin: 0 0 16px;
+}
+
+.cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.tags li {
+    padding: 6px 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.card h3 {
+    margin: 0 0 8px;
+}
+
+.link {
+    color: var(--acc);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.site-footer {
+    padding: 28px 0;
+}
+
+/* ===== Theme Toggle =====*/
+
+/* Grund-Button */
+.btn-icon {
+    position: relative;
+    overflow: hidden;
+    inline-size: 3.0rem;
+    block-size: 3.0rem;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 12px;
+}
+
+/* Icons: werden übereinander gestapelt und weich ein-/ausgeblendet */
+.icon {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 2.4rem;
+    height: 2.4rem;
+    opacity: 0;
+    transform: scale(.8) rotate(-6deg);
+    transition: opacity .2s ease, transform .28s cubic-bezier(.2, .8, .2, 1);
+    /* kein display:none hier! */
+}
+
+/* Sichtbarkeit je Modus (JS setzt data-mode am Button) */
+#theme-toggle[data-mode="auto"] .icon-auto,
+#theme-toggle[data-mode="light"] .icon-sun,
+#theme-toggle[data-mode="dark"] .icon-moon {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+}
+
+/* Ripple-Effekt auf dem Toggle */
+#theme-toggle {
+    position: relative;
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    #theme-toggle::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, currentColor 0%, transparent 60%);
+        opacity: .28;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    #theme-toggle.is-rippling::after {
+        animation: ripple .45s ease-out;
+    }
+
+    @keyframes ripple {
+        0% {
+            width: 0;
+            height: 0;
+            opacity: .28;
+        }
+
+        100% {
+            width: 160%;
+            height: 160%;
+            opacity: 0;
+        }
+    }
+}
+
+/* Sanfte Farb-Transitions beim Theme-Wechsel */
+@media (prefers-reduced-motion: no-preference) {
+
+    body,
+    .site-header,
+    .card,
+    .btn,
+    .btn-secondary,
+    .btn-icon {
+        transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+}
+
+
+/* SR-Helfer */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

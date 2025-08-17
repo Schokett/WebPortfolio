@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Skrollan Hyodo – Portfolio</title>
+  <meta name="description" content="Frontend-Entwicklerin – Projekte, Skills & Kontakt." />
+  <meta name="color-scheme" content="light dark" />
+</head>
+
+<body>
+  <a href="#main" class="skip">Zum Inhalt springen</a>
+
+  <header class="site-header">
+    <nav class="container nav">
+      <strong class="logo">Skrollan</strong>
+      <ul class="menu">
+        <li><a href="#about">Über mich</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projekte</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+
+      <button id="theme-toggle" class="btn-icon" aria-label="Theme umschalten">
+        <span class="visually-hidden">Theme umschalten</span>
+        <img class="icon icon-auto" src="icons/systemSwitch.svg" alt="" aria-hidden="true">
+        <img class="icon icon-sun" src="icons/lightSwitch.svg" alt="" aria-hidden="true">
+        <img class="icon icon-moon" src="icons/darkSwitch.svg" alt="" aria-hidden="true">
+      </button>
+
+
+
+    </nav>
+  </header>
+
+  <main id="main">
+    <section id="hero" class="section hero">
+      <div class="container">
+        <h1>Hi, ich bin Skrollan<span class="accent">.</span></h1>
+        <p>Frontend-Entwicklerin mit Liebe für klare UI und Farben.</p>
+        <div class="cta">
+          <a class="btn" href="#projects">Projekte ansehen</a>
+          <a class="btn-secondary" href="#contact">Kontakt aufnehmen</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2>Über mich</h2>
+        <p>Ich bin Skrollan Hyodo, angehende Fachinformatikerin für Anwendungsentwicklung mit Schwerpunkt Frontend. Ich
+          baue performante, zugängliche Interfaces mit HTML, CSS/SCSS, TypeScript und Vue.js. Farben, klare UX und Neues
+          entdecken sind mein Ding.</p>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <h2>Skills</h2>
+        <ul class="tags">
+          <li>HTML</li>
+          <li>CSS/SCSS</li>
+          <li>TypeScript</li>
+          <li>Vite</li>
+          <li>Vue (Basics)</li>
+          <li>Git/GitHub</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projekte</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>KakuKanji</h3>
+            <p>Kanji-Tool mit SVG & UI-Goodies.</p>
+            <a class="link" href="https://schokett.github.io/KakuKanji/" target="_blank" rel="noreferrer">Live ansehen
+              →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Kontakt</h2>
+        <!-- <p>Mail: <a href="mailto:skrollan.hyodo@gmail.com">skrollanelenazimmermann@gmail.com</a></p> -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> Skrollan Elena Hyodo</small>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
