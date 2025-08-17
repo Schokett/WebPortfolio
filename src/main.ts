@@ -131,3 +131,29 @@ document.addEventListener('animationend', (e) => {
   }
 });
 
+// --- FAB Button ---
+ (function () {
+  const btn = document.getElementById('scrollTopBtn');
+  if (!btn) return;
+
+  const SHOW_AFTER = 400;
+
+  function toggleFab() {
+    if (window.scrollY > SHOW_AFTER) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  }
+
+  toggleFab();
+  window.addEventListener('scroll', toggleFab, { passive: true });
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+
+
