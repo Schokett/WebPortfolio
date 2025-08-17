@@ -14,7 +14,12 @@
 
   <header class="site-header">
     <nav class="container nav">
-      <strong class="logo">Skrollan</strong>
+      <div class="logo">
+        <span class="led" aria-hidden="true"></span>
+        <span class="name">Skrollan</span>
+        
+      </div>
+
       <ul class="menu">
         <li><a href="#about">Über mich</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -98,10 +103,10 @@
   </footer>
 
   <!-- irgendwo am Ende von <body> -->
-<button id="scrollTopBtn" class="scroll-top" aria-label="Nach oben">
-  <img src="public/icons/up-arrow.svg" alt="" aria-hidden="true" />
-  <div class="scroll-top-glow"></div>
-</button>
+  <button id="scrollTopBtn" class="scroll-top" aria-label="Nach oben">
+    <img src="public/icons/up-arrow.svg" alt="" aria-hidden="true" />
+    <div class="scroll-top-glow"></div>
+  </button>
 
 
   <script type="module" src="/src/main.ts"></script>

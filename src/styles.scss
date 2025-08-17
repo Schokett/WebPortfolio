@@ -81,8 +81,51 @@ body {
     gap: 20px;
     padding: 12px 0;
 }
+@media (prefers-reduced-motion: reduce) {
+  .led { animation: none !important; }
+}
+
+
+@property --hue {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 .logo {
     font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+.name {
+    font-size: 1.2rem;
+  font-weight: 700;
+}
+.led {
+  --size: 14px;           /* einfach anpassen */
+  --hue: 0;               /* wird animiert */
+  --sat: 100%;
+  --lit: 50%;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background-color: hsl(var(--hue) var(--sat) var(--lit));
+  /* Glow mit gleicher Farbe */
+  box-shadow:
+    0 0 6px  hsl(var(--hue) var(--sat) 65% / .9),
+    0 0 12px hsl(var(--hue) var(--sat) 55% / .7),
+    0 0 20px hsl(var(--hue) var(--sat) 50% / .5);
+  animation: hue-cycle 25s linear infinite;
+}
+
+@keyframes hue-cycle {
+  0%   { --hue: 0;   }   /* rot */
+  25%  { --hue: 120; }   /* grün */
+  50%  { --hue: 200; }   /* cyan/blaugrün */
+  75%  { --hue: 260; }   /* violett */
+  100% { --hue: 360; }   /* zurück zu rot (gleich wie 0) */
 }
 
 .menu {
@@ -308,70 +351,80 @@ h2 {
 
 // FAB Button
 :root {
-  --fab-size: 64px;
-  --fab-bg: #222;
-  --fab-bg-hover: #333;
-  --fab-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  --glow-color: rgba(138, 43, 226, 0.6); /* lila glow */
+    --fab-size: 64px;
+    --fab-bg: #222;
+    --fab-bg-hover: #333;
+    --fab-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    --glow-color: rgba(138, 43, 226, 0.6);
+    /* lila glow */
 }
 
 .scroll-top {
-  position: fixed;
-  left: 50%;
-  bottom: 32px;
-  transform: translateX(-50%) scale(0.95);
-  width: var(--fab-size);
-  height: var(--fab-size);
-  border: none;
-  border-radius: 50%;
-  background: var(--fab-bg);
-  box-shadow: var(--fab-shadow);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  overflow: visible;
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%) scale(0.95);
+    width: var(--fab-size);
+    height: var(--fab-size);
+    border: none;
+    border-radius: 50%;
+    background: var(--fab-bg);
+    box-shadow: var(--fab-shadow);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    overflow: visible;
 
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 9999;
 }
 
 .scroll-top:hover {
-  background: var(--fab-bg-hover);
-  transform: translateX(-50%) scale(1.05);
+    background: var(--fab-bg-hover);
+    transform: translateX(-50%) scale(1.05);
 }
 
 .scroll-top img {
-  width: 55%;
-  height: 55%;
-  filter: invert(1);
-  pointer-events: none;
+    width: 55%;
+    height: 55%;
+    filter: invert(1);
+    pointer-events: none;
 }
 
 /* Glow / Schatten „Quest Aura“ */
 .scroll-top-glow {
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  width: 140%;
-  height: 40px;
-  background: radial-gradient(ellipse at center, var(--glow-color), transparent 70%);
-  transform: translateX(-50%);
-  z-index: -1;
-  pointer-events: none;
-  animation: pulse 2.5s infinite ease-in-out;
-  border-radius: 50%;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 140%;
+    height: 40px;
+    background: radial-gradient(ellipse at center, var(--glow-color), transparent 70%);
+    transform: translateX(-50%);
+    z-index: -1;
+    pointer-events: none;
+    animation: pulse 2.5s infinite ease-in-out;
+    border-radius: 50%;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-  50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
 }
 
 /* Sichtbar nach Scroll */
 .scroll-top.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) scale(1);
 }
