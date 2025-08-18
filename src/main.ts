@@ -133,25 +133,21 @@ document.addEventListener('animationend', (e) => {
   }
 });
 
-// --- FAB Button ---
 (() => {
-  const fab = document.getElementById('scrollTopBtn') as HTMLButtonElement | null;
-  if (!fab) return;
+  const el = document.getElementById('scrollTopBtn');
+  if (!(el instanceof HTMLButtonElement)) return; // type guard
 
   const SHOW_AFTER = 400;
 
-  function toggleFab() {
-    if (window.scrollY > SHOW_AFTER) {
-      fab.classList.add('show');
-    } else {
-      fab.classList.remove('show');
-    }
-  }
+  const toggleFab = () => {
+    if (window.scrollY > SHOW_AFTER) el.classList.add('show');
+    else el.classList.remove('show');
+  };
 
   toggleFab();
   window.addEventListener('scroll', toggleFab, { passive: true });
 
-  fab.addEventListener('click', (e) => {
+  el.addEventListener('click', (e) => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
