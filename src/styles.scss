@@ -75,11 +75,16 @@ body {
 }
 
 .nav {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 12px 0;
+    display: grid;
+  grid-template-columns: 1fr auto 1fr; /* links | mitte | rechts */
+  align-items: center;
+  gap: 20px;
 }
+
+.logo    { justify-self: start; }
+.menu    { justify-self: center; }
+.actions { justify-self: end; }
+
 @media (prefers-reduced-motion: reduce) {
   .led { animation: none !important; }
 }
@@ -133,6 +138,7 @@ body {
     list-style: none;
     display: flex;
     gap: 16px;
+    
 }
 
 .menu a {
@@ -145,6 +151,7 @@ body {
     opacity: 1;
     color: var(--acc);
 }
+
 
 .btn,
 .btn-secondary,
