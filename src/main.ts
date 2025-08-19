@@ -152,23 +152,26 @@ document.addEventListener('animationend', (e) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
-// kozu
+// ===============================================
+// Kozu: Pupillen verfolgen (ohne Herzen & Sprechblase)
+// ===============================================
 (() => {
-  const svg = document.querySelector('.kozu-bot') as SVGSVGElement | null;
-  const left = svg?.querySelector('.pupil-left') as SVGElement | null;
-  const right = svg?.querySelector('.pupil-right') as SVGElement | null;
+  const svg = document.querySelector<SVGSVGElement>('.kozu-bot');
+  const left = svg?.querySelector<SVGElement>('.pupil-left');
+  const right = svg?.querySelector<SVGElement>('.pupil-right');
   if (!svg || !left || !right) return;
 
-  const cxL = 62, cyL = 70, cxR = 98, cyR = 70; // Augenmittelpunkte in SVG-Koordinaten
-  const clamp = (v: number, min: number, max: number): number => Math.max(min, Math.min(max, v));
+  const cxL = 62, cyL = 70, cxR = 98, cyR = 70; // Augenmittelpunkte (viewBox)
+  const clamp = (v: number, min: number, max: number) =>
+    Math.max(min, Math.min(max, v));
 
   function move(e: PointerEvent) {
     const rect = svg!.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 160; // viewBox x
     const y = ((e.clientY - rect.top) / rect.height) * 180; // viewBox y
 
-    const max = 3.5;  // wie weit Pupillen wandern dürfen (px im viewBox-Sinn)
-    const k = 0.08;   // Sensitivität
+    const max = 3.5; // max Versatz in viewBox-Pixeln
+    const k = 0.08;  // Sensitivität
 
     const dxL = clamp((x - cxL) * k, -max, max);
     const dyL = clamp((y - cyL) * k, -max, max);
@@ -188,90 +191,7 @@ document.addEventListener('animationend', (e) => {
     right!.style.removeProperty('--ty');
   }
 
-  // Performance-freundlich: nur wenn Maus drüber
+  // Nur aktiv, wenn Maus über dem SVG ist
   svg.addEventListener('pointermove', move);
   svg.addEventListener('pointerleave', reset);
-})();
-
-// --- Kozu hearts + speech (TS safe) ---
-(() => {
-  const mascot = document.querySelector<HTMLElement>('.mascot');
-  if (!mascot) {
-    console.warn('[mascot] Element .mascot nicht gefunden – skip append');
-    return;
-  }
-  // Ab hier nur noch nicht-nullable Referenz verwenden:
-  const mascotEl: HTMLElement = mascot;
-
-  const speechEl = document.querySelector<HTMLElement>('.mascot-speech');
-  const heartColors = ["❤️", "💖", "🩷"] as const;
-  const messages = [
-    "Hehe, kitzelt! 💜",
-    "Kozu freut sich! 🎉",
-  ] as const;
-
-  let clickCount = 0;
-  let speechTimer: number | undefined; // setTimeout-ID im Browser
-
-  // Browser-UI unterdrücken (Spam-Klicks)
-  mascotEl.addEventListener('contextmenu', e => e.preventDefault());
-  mascotEl.addEventListener('mousedown',   e => e.preventDefault());
-  mascotEl.addEventListener('touchstart',  () => {}, { passive: true });
-
-  // sanftes Rate-Limit
-  let lastTime = 0;
-  const canFire = () => {
-    const now = performance.now();
-    if (now - lastTime < 120) return false;
-    lastTime = now;
-    return true;
-  };
-
-  function spawnHearts(x: number, y: number): void {
-    const count = Math.floor(Math.random() * 3) + 3; // 3–5
-    for (let i = 0; i < count; i++) {
-      const heart: HTMLSpanElement = document.createElement('span');
-      heart.className = Math.random() < 0.5 ? 'heart' : 'heart rotate';
-      heart.textContent = heartColors[Math.floor(Math.random() * heartColors.length)];
-
-      heart.style.left = `${x}px`;
-      heart.style.top  = `${y}px`;
-
-      const dx = (Math.random() - 0.5) * 60;   // -30..30 px
-      const scale = 0.8 + Math.random() * 1.2; // 0.8..2.0
-      const rot = (Math.random() - 0.5) * 60;  // -30..30°
-
-      heart.style.setProperty('--x', `${dx}px`);
-      heart.style.setProperty('--s', String(scale));
-      heart.style.setProperty('--r', `${rot}deg`);
-
-      mascotEl.appendChild(heart);
-      window.setTimeout(() => heart.remove(), 2000);
-    }
-  }
-
-  function showSpeech(): void {
-    if (!speechEl) return; // falls keine Blase im DOM, still aussteigen
-    const msg = messages[Math.floor(Math.random() * messages.length)];
-    speechEl.textContent = msg;
-    speechEl.classList.add('show');
-    if (speechTimer) window.clearTimeout(speechTimer);
-    speechTimer = window.setTimeout(() => speechEl.classList.remove('show'), 1800);
-  }
-
-  mascotEl.addEventListener('click', (e: MouseEvent) => {
-    if (!canFire()) return;
-
-    const rect = mascotEl.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    spawnHearts(x, y);
-
-    clickCount++;
-    if (clickCount > 5) {
-      showSpeech();
-      clickCount = 0;
-    }
-  });
 })();
