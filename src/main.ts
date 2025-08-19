@@ -152,3 +152,42 @@ document.addEventListener('animationend', (e) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
+
+(() => {
+  const svg   = document.querySelector('.kozu-bot');
+  const left  = svg?.querySelector('.pupil-left');
+  const right = svg?.querySelector('.pupil-right');
+  if (!svg || !left || !right) return;
+
+  const cxL=62, cyL=70, cxR=98, cyR=70; // Augenmittelpunkte in SVG-Koordinaten
+  const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
+
+  function move(e){
+    const rect = svg.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width)  * 160; // viewBox x
+    const y = ((e.clientY - rect.top)  / rect.height) * 180; // viewBox y
+
+    const max = 3.5;      // wie weit Pupillen wandern dürfen (px im viewBox-Sinn)
+    const k   = 0.08;     // Sensitivität
+
+    const dxL = clamp((x - cxL) * k, -max, max);
+    const dyL = clamp((y - cyL) * k, -max, max);
+    const dxR = clamp((x - cxR) * k, -max, max);
+    const dyR = clamp((y - cyR) * k, -max, max);
+
+    left .style.setProperty('--tx', dxL + 'px');
+    left .style.setProperty('--ty', dyL + 'px');
+    right.style.setProperty('--tx', dxR + 'px');
+    right.style.setProperty('--ty', dyR + 'px');
+  }
+
+  function reset(){
+    left .style.removeProperty('--tx'); left .style.removeProperty('--ty');
+    right.style.removeProperty('--tx'); right.style.removeProperty('--ty');
+  }
+
+  // Performance-freundlich: nur wenn Maus drüber
+  svg.addEventListener('pointermove', move);
+  svg.addEventListener('pointerleave', reset);
+})();
+

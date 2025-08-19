@@ -38,7 +38,7 @@
   </header>
 
 
-  <main id="main">
+  <!-- <main id="main">
     <section id="hero" class="section hero">
       <div class="container">
         <h1>Hi, ich bin Skrollan<span class="accent">.</span></h1>
@@ -48,94 +48,182 @@
           <a class="btn-secondary" href="#contact">Kontakt aufnehmen</a>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section id="about" class="section">
-      <div class="container">
-        <h2>Über mich</h2>
-        <p>Ich bin Skrollan Hyodo, angehende Fachinformatikerin für Anwendungsentwicklung mit Schwerpunkt Frontend.</p>
+
+  <main id="main">
+    <section id="hero" class="section hero hero--conversational">
+      <div class="container hero-wrap">
+        <!-- Linke Seite: Bubble + Actions -->
+        <div class="hero-left">
+          <h1>Hi, ich bin Skrollan<span class="accent">.</span></h1>
+          <p class="hero-sub">Frontend‑Entwicklerin mit Liebe für klare UI und Farben.</p>
+
+          <div class="hero-actions">
+            <a class="pill pill-primary" href="#projects">Projekte ansehen</a>
+            <a class="pill" href="#contact">Kontakt aufnehmen</a>
+          </div>
+        </div>
+
+        <!-- Hero rechts Kozu -->
+        <div class="hero-right">
+          <figure class="mascot-wrap" aria-hidden="true">
+            <svg class="kozu-bot" viewBox="0 0 160 180" role="img" aria-label="Kleiner freundlicher Roboter">
+              <!-- Schatten -->
+              <ellipse cx="80" cy="168" rx="42" ry="10" class="bot-shadow" />
+
+              <!-- Antenne -->
+              <g class="antenna">
+                <rect x="78" y="10" width="4" height="16" rx="2" class="metal" />
+                <circle cx="80" cy="6" r="5" class="antenna-tip" />
+              </g>
+
+              <!-- Körper -->
+              <defs>
+                <linearGradient id="botBody" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--bot-top,#2a2f3a)" />
+                  <stop offset="100%" stop-color="var(--bot-bottom,#171b22)" />
+                </linearGradient>
+              </defs>
+              <rect x="24" y="30" width="112" height="96" rx="18" fill="url(#botBody)" class="body" />
+
+              <!-- Screen -->
+              <rect x="38" y="44" width="84" height="52" rx="10" class="screen" />
+
+              <!-- Augen -->
+              <g class="eyes">
+                <ellipse cx="62" cy="70" rx="12" ry="12" class="eye-white" />
+                <ellipse cx="98" cy="70" rx="12" ry="12" class="eye-white" />
+
+                <!-- Pupillen -->
+                <circle cx="62" cy="70" r="6" class="pupil pupil-left" />
+                <circle cx="98" cy="70" r="6" class="pupil pupil-right" />
+              </g>
+
+              <!-- LED-Bar -->
+              <rect x="64" y="100" width="32" height="6" rx="3" class="bar-led" />
+
+              <!-- Tracks -->
+              <g class="tracks">
+                <rect x="22" y="126" width="40" height="18" rx="9" class="track" />
+                <rect x="98" y="126" width="40" height="18" rx="9" class="track" />
+              </g>
+            </svg>
+          </figure>
+        </div>
       </div>
+
+
     </section>
-
-    <section id="skills" class="section">
-      <div class="container">
-        <h2>Skills</h2>
-        <ul class="skills-grid">
-          <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-              alt="" aria-hidden="true"><span>HTML5</span></li>
-          <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt=""
-              aria-hidden="true"><span>CSS / SCSS</span></li>
-          <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt=""
-              aria-hidden="true"><span>Sass</span></li>
-          <li class="skill"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt=""
-              aria-hidden="true"><span>TypeScript</span></li>
-          <li class="skill"><img
-              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt=""
-              aria-hidden="true"><span>JavaScript</span></li>
-          <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg"
-              alt="" aria-hidden="true"><span>Vite</span></li>
-          <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
-              alt="" aria-hidden="true"><span>Vue (Basics)</span></li>
-          <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt=""
-              aria-hidden="true"><span>Git</span></li>
-          <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-              alt="" aria-hidden="true"><span>GitHub</span></li>
-          <li class="skill"><img src="https://cdn.simpleicons.org/affinitydesigner" alt=""
-              aria-hidden="true"><span>Affinity Designer</span></li>
-        </ul>
-      </div>
-      
-    </section>
+  </main>
 
 
-   <section id="projects" class="section">
+ <section id="about" class="section">
   <div class="container">
-    <h2>Projekte</h2>
-    <div class="grid">
-      <article class="card">
-        <h3>KakuKanji</h3>
-        <!-- Vorschaubild vom Projekt -->
-        <img src="src/assets/KakuKanji.png" alt="Screenshot KakuKanji Projekt" class="project-img">
-        <p>Kanji-Tool mit SVG & UI-Goodies.</p>
-        <a class="link" href="https://schokett.github.io/KakuKanji/" target="_blank" rel="noreferrer">
-          Live ansehen →
-        </a>
-      </article>
+    <h2>Über mich</h2>
+    <p>
+      Ich bin <strong>Skrollan Elena Hyodo</strong>, seit 2022 angehende Fachinformatikerin für Anwendungsentwicklung 
+      mit Fokus auf das <strong>Frontend</strong>. 
+    </p>
+    <p>
+      Meine Leidenschaft gilt der Gestaltung und der Entwicklung 
+      von interaktiven Webanwendungen. 
+      Besonders fasziniert mich, wie sich <strong>Farben, Typografie und kleine Details</strong> 
+      zu einem stimmigen Gesamtbild verbinden.
+    </p>
+    <p>
+      Neben meiner Ausbildung probiere ich gerne neue Technologien aus und arbeite an 
+      eigenen Projekten – so bleibe ich neugierig und erweitere ständig meinen Werkzeugkasten. 
+      Herausforderungen sehe ich als Möglichkeit zu wachsen und kreative Lösungen zu finden.
+    </p>
+    <p>
+      Wenn du mehr über mich erfahren möchtest, wirf gerne einen Blick in meine Projekte 
+      oder sag einfach <a href="#contact">Hallo</a> – ich freue mich auf den Austausch!
+    </p>
+    <h3>Kurze Fakten über mich:</h3>
+    <ul class="facts">
+      <li>Lerne Japanisch & schaue gerne Anime.</li>
+      <li>Bastlerin – ob Hardware schrauben oder kreative Ideen umsetzen.</li>
+      <li>Mama eines Kindes & Katzenliebhaberin.</li>
+    </ul>
+  </div>
+</section>
+
+  <section id="skills" class="section">
+    <div class="container">
+      <h2>Skills</h2>
+      <ul class="skills-grid">
+        <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt=""
+            aria-hidden="true"><span>HTML5</span></li>
+        <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt=""
+            aria-hidden="true"><span>CSS / SCSS</span></li>
+        <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt=""
+            aria-hidden="true"><span>Sass</span></li>
+        <li class="skill"><img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt=""
+            aria-hidden="true"><span>TypeScript</span></li>
+        <li class="skill"><img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt=""
+            aria-hidden="true"><span>JavaScript</span></li>
+        <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg"
+            alt="" aria-hidden="true"><span>Vite</span></li>
+        <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt=""
+            aria-hidden="true"><span>Vue (Basics)</span></li>
+        <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt=""
+            aria-hidden="true"><span>Git</span></li>
+        <li class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+            alt="" aria-hidden="true"><span>GitHub</span></li>
+        <li class="skill"><img src="https://cdn.simpleicons.org/affinitydesigner" alt=""
+            aria-hidden="true"><span>Affinity Designer</span></li>
+      </ul>
     </div>
-  </div>
-</section>
+
+  </section>
 
 
-<!-- ===== Kontakt / Say Hello Micro-Interaktion ===== -->
-<section id="contact" class="section">
-  <div class="container">
-    <h2>Kontakt</h2>
+  <section id="projects" class="section">
+    <div class="container">
+      <h2>Projekte</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>KakuKanji</h3>
+          <!-- Vorschaubild vom Projekt -->
+          <img src="src/assets/KakuKanji.png" alt="Screenshot KakuKanji Projekt" class="project-img">
+          <p>Kanji-Tool mit SVG & UI-Goodies.</p>
+          <a class="link" href="https://schokett.github.io/KakuKanji/" target="_blank" rel="noreferrer">
+            Live ansehen →
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    <!-- Meine kleine Chat-Bubble -->
-    <a class="hello-bubble" href="mailto:skrollanelenazimmermann@gmail.com" aria-label="E-Mail an Skrollan öffnen">
-      <span class="hello-emoji" aria-hidden="true">👋</span>
-      <span class="hello-text">Hast du ein Anliegen, schreib mir doch gerne!</span>
-    </a>
 
-    <p class="hello-note">Ich antworte in der Regel innerhalb von 1–2 Tagen ✨</p>
-  </div>
-</section>
+  <!-- ===== Kontakt / Say Hello Micro-Interaktion ===== -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2>Kontakt</h2>
+
+      <!-- Meine kleine Chat-Bubble -->
+      <a class="hello-bubble" href="mailto:skrollanelenazimmermann@gmail.com" aria-label="E-Mail an Skrollan öffnen">
+        <span class="hello-emoji" aria-hidden="true">👋</span>
+        <span class="hello-text">Hast du ein Anliegen, schreib mir doch gerne!</span>
+      </a>
+
+      <p class="hello-note">Ich antworte in der Regel innerhalb von 1–2 Tagen ✨</p>
+    </div>
+  </section>
 
 
   </main>
 
   <footer class="site-footer">
-  <p>© 2025 Skrollan Hyodo</p>
-  <a href="https://github.com/Schokett" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-    <img 
-      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" 
-      alt="GitHub" 
-      width="24" 
-      height="24"
-    />
-  </a>
-</footer>
+    <p>© 2025 Skrollan Hyodo</p>
+    <a href="https://github.com/Schokett" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="24"
+        height="24" />
+    </a>
+  </footer>
 
 
   <!-- irgendwo am Ende von <body> -->
