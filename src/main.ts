@@ -163,7 +163,7 @@ document.addEventListener('animationend', (e) => {
   const clamp = (v: number, min: number, max: number): number => Math.max(min, Math.min(max, v));
 
   function move(e: PointerEvent) {
-    const rect = svg.getBoundingClientRect();
+    const rect = svg!.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 160; // viewBox x
     const y = ((e.clientY - rect.top) / rect.height) * 180; // viewBox y
 
@@ -175,17 +175,17 @@ document.addEventListener('animationend', (e) => {
     const dxR = clamp((x - cxR) * k, -max, max);
     const dyR = clamp((y - cyR) * k, -max, max);
 
-    left.style.setProperty('--tx', dxL + 'px');
-    left.style.setProperty('--ty', dyL + 'px');
-    right.style.setProperty('--tx', dxR + 'px');
-    right.style.setProperty('--ty', dyR + 'px');
+    left!.style.setProperty('--tx', dxL + 'px');
+    left!.style.setProperty('--ty', dyL + 'px');
+    right!.style.setProperty('--tx', dxR + 'px');
+    right!.style.setProperty('--ty', dyR + 'px');
   }
 
   function reset() {
-    left.style.removeProperty('--tx');
-    left.style.removeProperty('--ty');
-    right.style.removeProperty('--tx');
-    right.style.removeProperty('--ty');
+    left!.style.removeProperty('--tx');
+    left!.style.removeProperty('--ty');
+    right!.style.removeProperty('--tx');
+    right!.style.removeProperty('--ty');
   }
 
   // Performance-freundlich: nur wenn Maus drüber
