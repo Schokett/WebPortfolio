@@ -152,7 +152,7 @@ document.addEventListener('animationend', (e) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
-
+// kozu
 (() => {
   const svg = document.querySelector('.kozu-bot') as SVGSVGElement | null;
   const left = svg?.querySelector('.pupil-left') as SVGElement | null;
@@ -163,58 +163,60 @@ document.addEventListener('animationend', (e) => {
   const clamp = (v: number, min: number, max: number): number => Math.max(min, Math.min(max, v));
 
   function move(e: PointerEvent) {
-    if (!svg || !left || !right) return;
     const rect = svg.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 160; // viewBox x
     const y = ((e.clientY - rect.top) / rect.height) * 180; // viewBox y
 
-    const max = 3.5;      // wie weit Pupillen wandern dürfen (px im viewBox-Sinn)
-    const k = 0.08;     // Sensitivität
+    const max = 3.5;  // wie weit Pupillen wandern dürfen (px im viewBox-Sinn)
+    const k = 0.08;   // Sensitivität
 
     const dxL = clamp((x - cxL) * k, -max, max);
     const dyL = clamp((y - cyL) * k, -max, max);
     const dxR = clamp((x - cxR) * k, -max, max);
     const dyR = clamp((y - cyR) * k, -max, max);
 
-    (left as SVGElement).style.setProperty('--tx', dxL + 'px');
-    (left as SVGElement).style.setProperty('--ty', dyL + 'px');
-    (right as SVGElement).style.setProperty('--tx', dxR + 'px');
-    (right as SVGElement).style.setProperty('--ty', dyR + 'px');
+    left.style.setProperty('--tx', dxL + 'px');
+    left.style.setProperty('--ty', dyL + 'px');
+    right.style.setProperty('--tx', dxR + 'px');
+    right.style.setProperty('--ty', dyR + 'px');
   }
 
   function reset() {
-    if (!left || !right) return;
-    (left as SVGElement).style.removeProperty('--tx');
-    (left as SVGElement).style.removeProperty('--ty');
-    (right as SVGElement).style.removeProperty('--tx');
-    (right as SVGElement).style.removeProperty('--ty');
+    left.style.removeProperty('--tx');
+    left.style.removeProperty('--ty');
+    right.style.removeProperty('--tx');
+    right.style.removeProperty('--ty');
   }
 
   // Performance-freundlich: nur wenn Maus drüber
   svg.addEventListener('pointermove', move);
   svg.addEventListener('pointerleave', reset);
 })();
-// --- Kozu hearts + speech (TS-safe, ohne Null-Fehler) ---
+
+// --- Kozu hearts + speech (TS safe) ---
 (() => {
-  const mascot = document.querySelector('.mascot-wrap') as HTMLElement | null;
-  if (!mascot) return; // Seite ohne Kozu -> aussteigen
+  const mascot = document.querySelector<HTMLElement>('.mascot');
+  if (!mascot) {
+    console.warn('[mascot] Element .mascot nicht gefunden – skip append');
+    return;
+  }
+  // Ab hier nur noch nicht-nullable Referenz verwenden:
+  const mascotEl: HTMLElement = mascot;
 
-  // Nach dem Null-Check: jetzt sicher innerhalb des Blocks selektieren
-  const speechEl = mascot.querySelector('.speech') as HTMLElement | null;
-
-  const heartColors = ["❤️","💖","🩷"] as const;
+  const speechEl = document.querySelector<HTMLElement>('.mascot-speech');
+  const heartColors = ["❤️", "💖", "🩷"] as const;
   const messages = [
     "Hehe, kitzelt! 💜",
     "Kozu freut sich! 🎉",
   ] as const;
 
   let clickCount = 0;
-  let speechTimer: number | undefined;
+  let speechTimer: number | undefined; // setTimeout-ID im Browser
 
-  // Browser-UI dämpfen
-  mascot.addEventListener('contextmenu', e => e.preventDefault());
-  mascot.addEventListener('mousedown',   e => e.preventDefault());
-  mascot.addEventListener('touchstart',  () => {}, { passive: true });
+  // Browser-UI unterdrücken (Spam-Klicks)
+  mascotEl.addEventListener('contextmenu', e => e.preventDefault());
+  mascotEl.addEventListener('mousedown',   e => e.preventDefault());
+  mascotEl.addEventListener('touchstart',  () => {}, { passive: true });
 
   // sanftes Rate-Limit
   let lastTime = 0;
@@ -228,28 +230,28 @@ document.addEventListener('animationend', (e) => {
   function spawnHearts(x: number, y: number): void {
     const count = Math.floor(Math.random() * 3) + 3; // 3–5
     for (let i = 0; i < count; i++) {
-      const heart = document.createElement('span');
+      const heart: HTMLSpanElement = document.createElement('span');
       heart.className = Math.random() < 0.5 ? 'heart' : 'heart rotate';
       heart.textContent = heartColors[Math.floor(Math.random() * heartColors.length)];
 
       heart.style.left = `${x}px`;
       heart.style.top  = `${y}px`;
 
-      const dx = (Math.random() - 0.5) * 60;     // -30..30 px
-      const scale = 0.8 + Math.random() * 1.2;   // 0.8..2.0
-      const rot = (Math.random() - 0.5) * 60;    // -30..30°
+      const dx = (Math.random() - 0.5) * 60;   // -30..30 px
+      const scale = 0.8 + Math.random() * 1.2; // 0.8..2.0
+      const rot = (Math.random() - 0.5) * 60;  // -30..30°
 
       heart.style.setProperty('--x', `${dx}px`);
       heart.style.setProperty('--s', String(scale));
       heart.style.setProperty('--r', `${rot}deg`);
 
-      mascot.appendChild(heart);
+      mascotEl.appendChild(heart);
       window.setTimeout(() => heart.remove(), 2000);
     }
   }
 
   function showSpeech(): void {
-    if (!speechEl) return; // Sprechblase optional
+    if (!speechEl) return; // falls keine Blase im DOM, still aussteigen
     const msg = messages[Math.floor(Math.random() * messages.length)];
     speechEl.textContent = msg;
     speechEl.classList.add('show');
@@ -257,10 +259,10 @@ document.addEventListener('animationend', (e) => {
     speechTimer = window.setTimeout(() => speechEl.classList.remove('show'), 1800);
   }
 
-  mascot.addEventListener('click', (e: MouseEvent) => {
+  mascotEl.addEventListener('click', (e: MouseEvent) => {
     if (!canFire()) return;
 
-    const rect = mascot.getBoundingClientRect();
+    const rect = mascotEl.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
@@ -273,4 +275,3 @@ document.addEventListener('animationend', (e) => {
     }
   });
 })();
-
