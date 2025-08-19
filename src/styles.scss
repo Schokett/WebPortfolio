@@ -553,16 +553,16 @@ html[data-theme="light"] .scroll-top::after {
 }
 
 /* Standard: keine Invertierung für Light Mode */
+/* Standard: Light Mode – nichts invertieren */
 .skills-grid img[src*="github-original.svg"] {
   filter: none;
 }
 
-/* Nur Dark Mode: invertieren */
-@media (prefers-color-scheme: dark) {
-  .skills-grid img[src*="github-original.svg"] {
-    filter: invert(1);
-  }
+/* Dark Mode über data-theme */
+html[data-theme='dark'] .skills-grid img[src*="github-original.svg"] {
+  filter: invert(1);
 }
+
 
 
 /* Footer (immer dunkel gehalten) */
