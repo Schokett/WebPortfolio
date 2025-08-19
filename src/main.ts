@@ -194,79 +194,82 @@ document.addEventListener('animationend', (e) => {
   svg.addEventListener('pointermove', move);
   svg.addEventListener('pointerleave', reset);
 })();
- //Kozu
- const mascot = document.querySelector('.mascot-wrap');
-const speech = mascot.querySelector('.speech');
+// --- Kozu hearts + speech (TS safe) ---
+(() => {
+  const mascot = document.querySelector('.mascot-wrap') as HTMLElement | null;
+  // Sprechblase optional; nur benutzen, wenn vorhanden
+  const speechEl = document.querySelector('.mascot-wrap .speech') as HTMLElement | null;
 
-const heartColors = ["❤️","💖","🩷"];
-const messages = [
-  "Hehe, kitzelt! 💜",
-  "Kozu freut sich! 🎉"
-];
+  if (!mascot) return; // Seite ohne Kozu: block auslassen
 
-let clickCount = 0;
-let speechTimer = null;
+  const heartColors = ["❤️","💖","🩷"] as const;
+  const messages = [
+    "Hehe, kitzelt! 💜",
+    "Kozu freut sich! 🎉",
+  ] as const;
 
-// ---- störende Browser-UI verhindern ----
-mascot.addEventListener('contextmenu', e => e.preventDefault());  // kein Rechtsklick-Menü
-mascot.addEventListener('mousedown',   e => e.preventDefault());  // keine Textselektion beim Spammen
-// Für iOS Safari: Langdruck-Callout minimieren (ergänzend zur CSS user-select:none)
-mascot.addEventListener('touchstart',  () => {}, {passive:true});
+  let clickCount = 0;
+  let speechTimer: number | undefined; // setTimeout-ID im Browser
 
-// ---- Rate-Limiter gegen Spam (120 ms) ----
-let lastTime = 0;
-function canFire(){
-  const now = performance.now();
-  if (now - lastTime < 120) return false; // 8–9x/s max
-  lastTime = now;
-  return true;
-}
+  // Browser-UI unterdrücken (Spam-Klicks)
+  mascot.addEventListener('contextmenu', e => e.preventDefault());
+  mascot.addEventListener('mousedown',   e => e.preventDefault());
+  mascot.addEventListener('touchstart',  () => {}, { passive: true });
 
-// ---- Herzen erzeugen ----
-function spawnHearts(x, y) {
-  const count = Math.floor(Math.random() * 3) + 3; // 3–5
-  for (let i = 0; i < count; i++) {
-    const heart = document.createElement('span');
-    heart.className = Math.random() < 0.5 ? 'heart' : 'heart rotate';
-    heart.textContent = heartColors[Math.floor(Math.random() * heartColors.length)];
+  // sanftes Rate-Limit
+  let lastTime = 0;
+  const canFire = () => {
+    const now = performance.now();
+    if (now - lastTime < 120) return false;
+    lastTime = now;
+    return true;
+  };
 
-    heart.style.left = x + 'px';
-    heart.style.top  = y + 'px';
+  function spawnHearts(x: number, y: number): void {
+    const count = Math.floor(Math.random() * 3) + 3; // 3–5
+    for (let i = 0; i < count; i++) {
+      const heart = document.createElement('span');
+      heart.className = Math.random() < 0.5 ? 'heart' : 'heart rotate';
+      heart.textContent = heartColors[Math.floor(Math.random() * heartColors.length)];
 
-    const dx    = (Math.random() - 0.5) * 60;        // -30..30 px seitlich
-    const scale = 0.8 + Math.random() * 1.2;         // 0.8..2.0
-    const rot   = (Math.random() - 0.5) * 60 + 'deg';// -30..30°
+      heart.style.left = `${x}px`;
+      heart.style.top  = `${y}px`;
 
-    heart.style.setProperty('--x', dx + 'px');
-    heart.style.setProperty('--s', scale);
-    heart.style.setProperty('--r', rot);
+      const dx = (Math.random() - 0.5) * 60;          // -30..30 px
+      const scale = 0.8 + Math.random() * 1.2;        // 0.8..2.0
+      const rot = (Math.random() - 0.5) * 60;         // -30..30°
 
-    mascot.appendChild(heart);
-    setTimeout(() => heart.remove(), 2000);
+      heart.style.setProperty('--x', `${dx}px`);
+      heart.style.setProperty('--s', String(scale));   // String erwartet
+      heart.style.setProperty('--r', `${rot}deg`);
+
+      mascot.appendChild(heart);
+      window.setTimeout(() => heart.remove(), 2000);
+    }
   }
-}
 
-// ---- Sprechblase rechts von Kozu ----
-function showSpeech() {
-  const msg = messages[Math.floor(Math.random() * messages.length)];
-  speech.textContent = msg;
-  speech.classList.add('show');
-  clearTimeout(speechTimer);
-  speechTimer = setTimeout(() => speech.classList.remove('show'), 1800);
-}
-
-mascot.addEventListener('click', (e) => {
-  if (!canFire()) return;
-
-  const rect = mascot.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  spawnHearts(x, y);
-
-  clickCount++;
-  if (clickCount > 5) {
-    showSpeech();
-    clickCount = 0; // zurücksetzen, damit es wieder „besonders“ ist
+  function showSpeech(): void {
+    if (!speechEl) return; // falls keine Blase im DOM, still aussteigen
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    speechEl.textContent = msg;
+    speechEl.classList.add('show');
+    if (speechTimer) window.clearTimeout(speechTimer);
+    speechTimer = window.setTimeout(() => speechEl.classList.remove('show'), 1800);
   }
-});
+
+  mascot.addEventListener('click', (e: MouseEvent) => {
+    if (!canFire()) return;
+
+    const rect = mascot.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    spawnHearts(x, y);
+
+    clickCount++;
+    if (clickCount > 5) {
+      showSpeech();
+      clickCount = 0;
+    }
+  });
+})();

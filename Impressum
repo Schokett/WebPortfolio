@@ -1,0 +1,68 @@
+<template>
+  <div class="impressum-container">
+    <h1>Impressum</h1>
+
+    <p><strong>Verantwortlich für den Inhalt dieser Website:</strong><br>
+      Skrollan Hyodo
+    </p>
+
+    <p><strong>E-Mail:</strong> <a href="mailto:skrollan.hyodo@gmail.com">skrollan.hyodo@gmail.com</a></p>
+
+    <h2>Haftungsausschluss</h2>
+    <p>
+      Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. 
+      Für den Inhalt verlinkter Seiten sind ausschließlich deren Betreiber verantwortlich.
+    </p>
+  </div>
+</template>
+
+<script setup>
+// Keine Logik notwendig für Impressum
+</script>
+
+<style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Klee+One&display=swap');
+
+.impressum-container {
+  font-family: 'Klee One', sans-serif;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  margin: 2rem auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  color: #1a1a1a;
+
+  h1 {
+    color: #8A2BE2;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin-top: 2rem;
+    color: #333;
+    font-size: 1.25rem;
+  }
+
+  p {
+    margin: 0.75rem 0;
+    line-height: 1.5;
+
+    a {
+      color: #8A2BE2;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+body {
+  background-color: #f4f4f9;
+}
+</style>
+
