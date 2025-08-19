@@ -1020,7 +1020,9 @@ html[data-theme="light"] {
 }
 
 .mascot-wrap {
-  position: relative; /* wichtig für die Herzen */
+position: relative;
+  overflow: visible;
+  z-index: 20;
   width: min(360px, 38vw);
   aspect-ratio: 1 / 1.1;
   display:flex; align-items:center; justify-content:center;
@@ -1028,26 +1030,44 @@ html[data-theme="light"] {
   filter: drop-shadow(0 18px 40px rgba(0,0,0,.35));
   overflow: visible;
 }
+
+.mascot-wrap,
+.mascot-wrap * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
 /* Sprechblase */
-.mascot-wrap { position: relative; overflow: visible; } /* wichtig für Positionierung */
+.mascot-wrap {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* verhindert Doppeltipp-Zoom/Scroll-Jank */
+  position: relative; /* war schon nötig für Herzen */
+  overflow: visible;
+  z-index: 20;
+}
+.heart,
 .speech {
-  position: absolute;
-  left: 50%;
-  bottom: 110%;                /* über dem Bot */
-  transform: translateX(-50%) translateY(6px);
-  max-width: 240px;
-  padding: 10px 12px;
-  font-weight: 700;
-  font-size: .95rem;
-  background: var(--card);
-  color: var(--fg);
-  border: 1px solid var(--border);
+  pointer-events: none;
+}
+.speech {
+   position: absolute;
+  left: 100%;         /* rechts von Kozu */
+  top: 20%;           /* etwas oberhalb der Mitte */
+  margin-left: 12px;  /* kleiner Abstand */
+  
+  background: #fff;
+  color: #222;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 10px 14px;
   border-radius: 12px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  white-space: nowrap;
+  
   opacity: 0;
   pointer-events: none;
-  transition: opacity .25s ease, transform .25s ease, filter .25s ease;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.08));
+  transform: translateY(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .speech::after{
   content:"";
@@ -1060,9 +1080,19 @@ html[data-theme="light"] {
   border-top:none; border-left:none;
   transform: translateX(-50%) rotate(45deg);
 }
+.speech::before {
+  content: "";
+  position: absolute;
+  left: -8px;  /* zeigt auf Kozu */
+  top: 12px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+}
 .speech.show {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 /* Dark-Feinschliff */
