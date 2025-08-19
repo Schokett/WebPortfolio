@@ -194,13 +194,13 @@ document.addEventListener('animationend', (e) => {
   svg.addEventListener('pointermove', move);
   svg.addEventListener('pointerleave', reset);
 })();
-// --- Kozu hearts + speech (TS safe) ---
+// --- Kozu hearts + speech (TS-safe, ohne Null-Fehler) ---
 (() => {
   const mascot = document.querySelector('.mascot-wrap') as HTMLElement | null;
-  // Sprechblase optional; nur benutzen, wenn vorhanden
-  const speechEl = document.querySelector('.mascot-wrap .speech') as HTMLElement | null;
+  if (!mascot) return; // Seite ohne Kozu -> aussteigen
 
-  if (!mascot) return; // Seite ohne Kozu: block auslassen
+  // Nach dem Null-Check: jetzt sicher innerhalb des Blocks selektieren
+  const speechEl = mascot.querySelector('.speech') as HTMLElement | null;
 
   const heartColors = ["❤️","💖","🩷"] as const;
   const messages = [
@@ -209,9 +209,9 @@ document.addEventListener('animationend', (e) => {
   ] as const;
 
   let clickCount = 0;
-  let speechTimer: number | undefined; // setTimeout-ID im Browser
+  let speechTimer: number | undefined;
 
-  // Browser-UI unterdrücken (Spam-Klicks)
+  // Browser-UI dämpfen
   mascot.addEventListener('contextmenu', e => e.preventDefault());
   mascot.addEventListener('mousedown',   e => e.preventDefault());
   mascot.addEventListener('touchstart',  () => {}, { passive: true });
@@ -235,12 +235,12 @@ document.addEventListener('animationend', (e) => {
       heart.style.left = `${x}px`;
       heart.style.top  = `${y}px`;
 
-      const dx = (Math.random() - 0.5) * 60;          // -30..30 px
-      const scale = 0.8 + Math.random() * 1.2;        // 0.8..2.0
-      const rot = (Math.random() - 0.5) * 60;         // -30..30°
+      const dx = (Math.random() - 0.5) * 60;     // -30..30 px
+      const scale = 0.8 + Math.random() * 1.2;   // 0.8..2.0
+      const rot = (Math.random() - 0.5) * 60;    // -30..30°
 
       heart.style.setProperty('--x', `${dx}px`);
-      heart.style.setProperty('--s', String(scale));   // String erwartet
+      heart.style.setProperty('--s', String(scale));
       heart.style.setProperty('--r', `${rot}deg`);
 
       mascot.appendChild(heart);
@@ -249,7 +249,7 @@ document.addEventListener('animationend', (e) => {
   }
 
   function showSpeech(): void {
-    if (!speechEl) return; // falls keine Blase im DOM, still aussteigen
+    if (!speechEl) return; // Sprechblase optional
     const msg = messages[Math.floor(Math.random() * messages.length)];
     speechEl.textContent = msg;
     speechEl.classList.add('show');
@@ -273,3 +273,4 @@ document.addEventListener('animationend', (e) => {
     }
   });
 })();
+

@@ -552,10 +552,18 @@ html[data-theme="light"] .scroll-top::after {
     font-weight: 600;
 }
 
-/* GitHub-Icon extra invertieren im Darkmode */
+/* Standard: keine Invertierung für Light Mode */
 .skills-grid img[src*="github-original.svg"] {
-    filter: invert(1);
+  filter: none;
 }
+
+/* Nur Dark Mode: invertieren */
+@media (prefers-color-scheme: dark) {
+  .skills-grid img[src*="github-original.svg"] {
+    filter: invert(1);
+  }
+}
+
 
 /* Footer (immer dunkel gehalten) */
 .site-footer {
