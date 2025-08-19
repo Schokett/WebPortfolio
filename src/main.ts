@@ -154,35 +154,35 @@ document.addEventListener('animationend', (e) => {
 })();
 
 (() => {
-  const svg   = document.querySelector('.kozu-bot');
-  const left  = svg?.querySelector('.pupil-left');
+  const svg = document.querySelector('.kozu-bot');
+  const left = svg?.querySelector('.pupil-left');
   const right = svg?.querySelector('.pupil-right');
   if (!svg || !left || !right) return;
 
-  const cxL=62, cyL=70, cxR=98, cyR=70; // Augenmittelpunkte in SVG-Koordinaten
-  const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
+  const cxL = 62, cyL = 70, cxR = 98, cyR = 70; // Augenmittelpunkte in SVG-Koordinaten
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-  function move(e){
+  function move(e) {
     const rect = svg.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width)  * 160; // viewBox x
-    const y = ((e.clientY - rect.top)  / rect.height) * 180; // viewBox y
+    const x = ((e.clientX - rect.left) / rect.width) * 160; // viewBox x
+    const y = ((e.clientY - rect.top) / rect.height) * 180; // viewBox y
 
     const max = 3.5;      // wie weit Pupillen wandern dürfen (px im viewBox-Sinn)
-    const k   = 0.08;     // Sensitivität
+    const k = 0.08;     // Sensitivität
 
     const dxL = clamp((x - cxL) * k, -max, max);
     const dyL = clamp((y - cyL) * k, -max, max);
     const dxR = clamp((x - cxR) * k, -max, max);
     const dyR = clamp((y - cyR) * k, -max, max);
 
-    left .style.setProperty('--tx', dxL + 'px');
-    left .style.setProperty('--ty', dyL + 'px');
+    left.style.setProperty('--tx', dxL + 'px');
+    left.style.setProperty('--ty', dyL + 'px');
     right.style.setProperty('--tx', dxR + 'px');
     right.style.setProperty('--ty', dyR + 'px');
   }
 
-  function reset(){
-    left .style.removeProperty('--tx'); left .style.removeProperty('--ty');
+  function reset() {
+    left.style.removeProperty('--tx'); left.style.removeProperty('--ty');
     right.style.removeProperty('--tx'); right.style.removeProperty('--ty');
   }
 
@@ -191,3 +191,37 @@ document.addEventListener('animationend', (e) => {
   svg.addEventListener('pointerleave', reset);
 })();
 
+// Herzchen-Effekt bei Klick auf die Maskottchen
+const mascot = document.querySelector('.mascot-wrap');
+const heartColors = ["❤️", "💖", "🩷"];
+
+if (mascot) {
+  mascot.addEventListener('click', (e) => {
+    const rect = mascot.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const count = Math.floor(Math.random() * 3) + 3; // 3–5 Herzen
+
+    for (let i = 0; i < count; i++) {
+      const heart = document.createElement('span');
+      heart.classList.add('heart');
+      heart.textContent = heartColors[Math.floor(Math.random() * heartColors.length)];
+
+      // Startposition
+      heart.style.left = x + 'px';
+      heart.style.top = y + 'px';
+
+      // Zufällige Werte
+      const dx = (Math.random() - 0.5) * 60; // -30 bis 30 px seitlich
+      const scale = 0.8 + Math.random() * 1.2; // 0.8 – 2.0
+
+      heart.style.setProperty('--x', dx + 'px');
+      heart.style.setProperty('--s', scale);
+
+      mascot.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 2000);
+    }
+  });
+}
