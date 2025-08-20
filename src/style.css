@@ -12,7 +12,64 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.menu {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
+.menu li a {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text, #222);
+  text-decoration: none;
+  border-radius: 8px;
+  position: relative;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+/* Hover Effekt */
+.menu li a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 60%;
+  height: 2px;
+  background: var(--accent, #8a2be2); // dein Lila
+  border-radius: 2px;
+  transition: transform 0.3s ease;
+}
+
+.menu li a:hover {
+  color: var(--accent, #8a2be2);
+}
+.menu li a:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Aktiver Link */
+.menu li a.active {
+  color: var(--accent, #8a2be2);
+}
+.menu li a.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Darkmode Anpassung */
+html[data-theme="dark"] .menu li a {
+  color: #ddd;
+}
+html[data-theme="dark"] .menu li a:hover {
+  color: var(--accent, #8a2be2);
+}
+ 
 a {
   font-weight: 500;
   color: #646cff;
